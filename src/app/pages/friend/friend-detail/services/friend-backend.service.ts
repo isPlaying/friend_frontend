@@ -14,4 +14,7 @@ export class FriendBackendService {
       params: this.bs.getHttpParams(params),
     });
   }
+  addFriend(params: object): Observable<any> {
+    return this.httpClient.post('api/friend', params);
+  }
 }

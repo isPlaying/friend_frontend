@@ -1,0 +1,94 @@
+<nz-drawer
+  [nzBodyStyle]="{
+    height: 'calc(100% - 55px)',
+    overflow: 'auto',
+    'padding-bottom': '53px'
+  }"
+  [nzMaskClosable]="false"
+  [nzWidth]="500"
+  [nzVisible]="friendService.visible"
+  nzTitle="添加好友"
+  (nzOnClose)="friendService.close()"
+>
+  <div nz-row nzGutter="24">
+    <div nz-col nzSpan="24" class="field">
+      <label class="required-label">
+        姓名：
+      </label>
+      <input
+        nz-input
+        placeholder="请输入姓名"
+        [ngStyle]="{ width: '350px' }"
+        [(ngModel)]="friendService.name"
+      />
+    </div>
+    <div nz-col nzSpan="24" class="field">
+      <label class="required-label">
+        年龄：
+      </label>
+      <nz-input-number
+        [(ngModel)]="friendService.age"
+        [nzMin]="1"
+        [nzMax]="100"
+        [nzStep]="1"
+        placeholder="请输入年龄"
+        [ngStyle]="{ width: '350px' }"
+      ></nz-input-number>
+    </div>
+    <div nz-col nzSpan="24" class="field">
+      <label class="required-label">
+        性别：
+      </label>
+      <nz-radio-group [(ngModel)]="friendService.gender">
+        <label
+          nz-radio
+          *ngFor="let item of friendService.genderList"
+          [nzValue]="item.value"
+        >
+          {{ item.label }}
+        </label>
+      </nz-radio-group>
+    </div>
+    <div nz-col nzSpan="24" class="hobby">
+      <label class="required-label">
+        爱好：
+      </label>
+      <textarea
+        nz-input
+        placeholder="请输入爱好"
+        [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        [ngStyle]="{ width: '350px' }"
+        [(ngModel)]="friendService.hobby"
+      ></textarea>
+    </div>
+    <div nz-col nzSpan="24" class="hobby">
+      <label class="required-label">
+        备注：
+      </label>
+      <textarea
+        nz-input
+        placeholder="请输入内容"
+        [nzAutosize]="{ minRows: 6, maxRows: 6 }"
+        [ngStyle]="{ width: '350px' }"
+        [(ngModel)]="friendService.remark"
+      ></textarea>
+    </div>
+  </div>
+  <div class="footer">
+    <button
+      type="button"
+      (click)="friendService.close()"
+      class="ant-btn"
+      style="margin-right: 8px;"
+    >
+      <span>取消</span>
+    </button>
+    <button
+      type="button"
+      (click)="friendService.addFriendSubmit()"
+      class="ant-btn ant-btn-primary"
+    >
+      <span>提交</span>
+    </button>
+  </div>
+</nz-drawer>
