@@ -1,1 +1,34 @@
-<p>friend works!</p>
+<div class="wrapper">
+  <nz-card nzTitle="好友列表" [nzExtra]="extraTemplate">
+    <app-friend-search
+      (searchParams)="friendService.searchFriend($event)"
+    ></app-friend-search>
+    <nz-table #basicTable [nzData]="friendService.dataSet">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>爱好</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.age }}</td>
+          <td>{{ data.gender }}</td>
+          <td>{{ data.hobby }}</td>
+          <td>
+            <a>查看</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>删除</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+  <ng-template #extraTemplate>
+    <a>添加好友</a>
+  </ng-template>
+</div>
