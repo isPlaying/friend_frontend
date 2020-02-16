@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FriendService } from '../friend-detail/services/friend.service';
 
 @Component({
-  selector: 'app-add-friend',
-  templateUrl: './add-friend.component.html',
-  styleUrls: ['./add-friend.component.less'],
+  selector: 'app-friend-drawer',
+  templateUrl: './friend-drawer.component.html',
+  styleUrls: ['./friend-drawer.component.less'],
 })
-export class AddFriendComponent implements OnInit {
+export class FriendDrawerComponent implements OnInit {
   constructor(private friendService: FriendService) {}
 
   ngOnInit() {}

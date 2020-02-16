@@ -22,16 +22,16 @@
           <td>{{ data.hobby }}</td>
           <td>{{ data.remark }}</td>
           <td>
-            <a>编辑</a>
+            <a (click)="friendService.open('edit', data)">编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a>删除</a>
+            <a (click)="friendService.deleteFriend(data)">删除</a>
           </td>
         </tr>
       </tbody>
     </nz-table>
   </nz-card>
   <ng-template #extraTemplate>
-    <a (click)="friendService.open()">添加好友</a>
+    <a (click)="friendService.open('add')">添加好友</a>
   </ng-template>
-  <app-add-friend></app-add-friend>
+  <app-friend-drawer></app-friend-drawer>
 </div>

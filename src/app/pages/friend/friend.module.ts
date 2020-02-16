@@ -3,11 +3,11 @@ import { FriendComponent } from './friend-detail/friend.component';
 import { FriendRoutingModule } from './friend-routing.module';
 import { FriendSearchComponent } from './friend-search/friend-search.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AddFriendComponent } from './add-friend/add-friend.component';
+import { FriendDrawerComponent } from './friend-drawer/friend-drawer.component';
 
 @NgModule({
   imports: [FriendRoutingModule, SharedModule],
-  declarations: [FriendComponent, FriendSearchComponent, AddFriendComponent],
+  declarations: [FriendComponent, FriendSearchComponent, FriendDrawerComponent],
   exports: [FriendComponent],
 })
 export class FriendModule {}

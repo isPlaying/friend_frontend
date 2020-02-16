@@ -7,7 +7,7 @@
   [nzMaskClosable]="false"
   [nzWidth]="500"
   [nzVisible]="friendService.visible"
-  nzTitle="添加好友"
+  [nzTitle]="friendService.title"
   (nzOnClose)="friendService.close()"
 >
   <div nz-row nzGutter="24">
@@ -19,7 +19,7 @@
         nz-input
         placeholder="请输入姓名"
         [ngStyle]="{ width: '350px' }"
-        [(ngModel)]="friendService.name"
+        [(ngModel)]="friendService.friendInfo.name"
       />
     </div>
     <div nz-col nzSpan="24" class="field">
@@ -27,7 +27,7 @@
         年龄：
       </label>
       <nz-input-number
-        [(ngModel)]="friendService.age"
+        [(ngModel)]="friendService.friendInfo.age"
         [nzMin]="1"
         [nzMax]="100"
         [nzStep]="1"
@@ -39,7 +39,7 @@
       <label class="required-label">
         性别：
       </label>
-      <nz-radio-group [(ngModel)]="friendService.gender">
+      <nz-radio-group [(ngModel)]="friendService.friendInfo.gender">
         <label
           nz-radio
           *ngFor="let item of friendService.genderList"
@@ -58,7 +58,7 @@
         placeholder="请输入爱好"
         [nzAutosize]="{ minRows: 6, maxRows: 6 }"
         [ngStyle]="{ width: '350px' }"
-        [(ngModel)]="friendService.hobby"
+        [(ngModel)]="friendService.friendInfo.hobby"
       ></textarea>
     </div>
     <div nz-col nzSpan="24" class="hobby">
@@ -70,7 +70,7 @@
         placeholder="请输入内容"
         [nzAutosize]="{ minRows: 6, maxRows: 6 }"
         [ngStyle]="{ width: '350px' }"
-        [(ngModel)]="friendService.remark"
+        [(ngModel)]="friendService.friendInfo.remark"
       ></textarea>
     </div>
   </div>
@@ -85,7 +85,7 @@
     </button>
     <button
       type="button"
-      (click)="friendService.addFriendSubmit()"
+      (click)="friendService.submit(friendService.submitType)"
       class="ant-btn ant-btn-primary"
     >
       <span>提交</span>
