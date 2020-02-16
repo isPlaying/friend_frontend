@@ -7,42 +7,7 @@ import { FriendBackendService } from './friend-backend.service';
   providedIn: 'root',
 })
 export class FriendService {
-  dataSet: Array<FriendDetail> = [
-    {
-      id: '1',
-      name: 'John Brown',
-      age: 32,
-      hobby: '123',
-      gender: 'male',
-      remark: '----',
-    },
-    {
-      id: '2',
-      name: 'Jim Green',
-      age: 42,
-      hobby: '321',
-      gender: 'male',
-      remark: '----',
-    },
-    {
-      id: '3',
-      name: 'Joe Black',
-      age: 32,
-      hobby: '123',
-      gender: 'female',
-      remark: '----',
-    },
-  ];
-  genderRadioList: Array<IGender> = [
-    {
-      label: '男',
-      value: 'male',
-    },
-    {
-      label: '女',
-      value: 'female',
-    },
-  ];
+  dataSet: Array<FriendDetail> = [];
   friendInfo: FriendDetail = new FriendDetail();
   title: string;
   submitType: string;
