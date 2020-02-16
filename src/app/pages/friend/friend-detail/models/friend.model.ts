@@ -4,4 +4,5 @@ export interface IFriendList {
   age: number;
   hobby: string;
   gender: string;
+  remark: string;
 }

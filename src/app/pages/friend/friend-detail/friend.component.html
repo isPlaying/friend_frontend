@@ -6,11 +6,12 @@
     <nz-table #basicTable [nzData]="friendService.dataSet">
       <thead>
         <tr>
-          <th>姓名</th>
-          <th>年龄</th>
-          <th>性别</th>
-          <th>爱好</th>
-          <th>操作</th>
+          <th nzWidth="100px">姓名</th>
+          <th nzWidth="100px">年龄</th>
+          <th nzWidth="100px">性别</th>
+          <th nzWidth="100px">爱好</th>
+          <th nzWidth="100px">备注</th>
+          <th nzWidth="100px">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -19,8 +20,9 @@
           <td>{{ data.age }}</td>
           <td>{{ data.gender }}</td>
           <td>{{ data.hobby }}</td>
+          <td>{{ data.remark }}</td>
           <td>
-            <a>查看</a>
+            <a>编辑</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a>删除</a>
           </td>
@@ -29,6 +31,7 @@
     </nz-table>
   </nz-card>
   <ng-template #extraTemplate>
-    <a>添加好友</a>
+    <a (click)="friendService.open()">添加好友</a>
   </ng-template>
+  <app-add-friend></app-add-friend>
 </div>
