@@ -1,5 +1,5 @@
-export interface IFriendList {
-  key: string;
+export interface IFriendDetail {
+  id?: string;
   name: string;
   age: number;
   hobby: string;

@@ -1,36 +1,12 @@
 import { Injectable } from '@angular/core';
-import { IFriendList } from '../models/friend.model';
+import { IFriendDetail } from '../models/friend.model';
 import { FriendBackendService } from './friend-backend.service';
+import { NzModalService } from 'ng-zorro-antd';
 @Injectable({
   providedIn: 'root',
 })
 export class FriendService {
-  dataSet: Array<IFriendList> = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      hobby: '123',
-      gender: 'male',
-      remark: '----',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      hobby: '321',
-      gender: 'male',
-      remark: '----',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      hobby: '123',
-      gender: 'female',
-      remark: '----',
-    },
-  ];
+  dataSet: Array<IFriendDetail> = [];
   genderList = [
     {
       label: '男',
@@ -41,17 +17,48 @@ export class FriendService {
       value: 'female',
     },
   ];
+  friendInfo: IFriendDetail = {
+    id: null,
+    gender: 'male',
+    age: null,
+    name: '',
+    hobby: '',
+    remark: '',
+  };
 
-  gender = 'male';
-  age: number;
-  name = '';
-  hobby = '';
-  remark = '';
+  title: string;
   visible = false;
+  submitType: string;
 
-  constructor(private friendBackendService: FriendBackendService) {}
+  constructor(
+    private friendBackendService: FriendBackendService,
+    private modalService: NzModalService
+  ) {}
 
-  open(): void {
+  open(type: string, data?: IFriendDetail): void {
+    this.title = type === 'edit' ? '编辑好友' : '添加好友';
+    this.submitType = type === 'edit' ? 'edit' : 'add';
+    if (type === 'edit') {
+      const { id, name, age, gender, hobby, remark } = data;
+      this.friendInfo = {
+        ...this.friendInfo,
+        id,
+        gender,
+        age,
+        name,
+        hobby,
+        remark,
+      };
+    } else {
+      this.friendInfo = {
+        id: null,
+        gender: 'male',
+        age: null,
+        name: '',
+        hobby: '',
+        remark: '',
+      };
+    }
     this.visible = true;
   }
 
@@ -78,18 +85,26 @@ export class FriendService {
   }
 
   /**
-   * 新增好友
+   * 新增好友、编辑好友提交
    *
+   * @param {string} type
    * @memberof FriendService
    */
-  addFriendSubmit() {
-    const params = {
-      name: this.name,
-      age: this.age,
-      gender: this.gender,
-      hobby: this.hobby,
-      remark: this.remark,
+  submit(type: string) {
+    const { name, age, gender, hobby, remark } = this.friendInfo;
+    const params: IFriendDetail = {
+      name,
+      age,
+      gender,
+      hobby,
+      remark,
     };
+    type === 'add'
+      ? this.addFriend(params)
+      : this.editFriend(params, this.friendInfo.id);
+  }
+
+  addFriend(params) {
     this.friendBackendService.addFriend(params).subscribe(
       res => {
         console.log(res);
@@ -99,5 +114,38 @@ export class FriendService {
         console.error(err);
       }
     );
+  }
+
+  editFriend(params, id) {
+    this.friendBackendService.editFriend(id, params).subscribe(
+      res => {
+        console.log(res);
+        this.visible = false;
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  deleteFriend(data: IFriendDetail): void {
+    this.modalService.confirm({
+      nzTitle: `你是否要删除${data.name}?`,
+      nzContent: '',
+      nzOkText: '确定',
+      nzOkType: 'danger',
+      nzOnOk: () => {
+        this.friendBackendService.deleteFriend(data.id).subscribe(
+          res => {
+            console.log(res);
+          },
+          err => {
+            console.error(err);
+          }
+        );
+      },
+      nzCancelText: '取消',
+      nzOnCancel: () => console.log('Cancel'),
+    });
   }
 }
