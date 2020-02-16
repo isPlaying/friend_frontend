@@ -42,7 +42,7 @@
       <nz-radio-group [(ngModel)]="friendService.friendInfo.gender">
         <label
           nz-radio
-          *ngFor="let item of friendService.genderList"
+          *ngFor="let item of friendService.genderRadioList"
           [nzValue]="item.value"
         >
           {{ item.label }}
