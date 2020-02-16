@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { IFriendDetail } from '../models/friend.model';
+import { FriendDetail, IGender } from '../models/friend.model';
 import { FriendBackendService } from './friend-backend.service';
 import { NzModalService } from 'ng-zorro-antd';
+
 @Injectable({
   providedIn: 'root',
 })
 export class FriendService {
-  dataSet: Array<IFriendDetail> = [];
-  genderList = [
+  dataSet: Array<FriendDetail> = [];
+  genderRadioList: Array<IGender> = [
     {
       label: '男',
       value: 'male',
@@ -17,53 +18,64 @@ export class FriendService {
       value: 'female',
     },
   ];
-  friendInfo: IFriendDetail = {
-    id: null,
-    gender: 'male',
-    age: null,
-    name: '',
-    hobby: '',
-    remark: '',
-  };
-
+  friendInfo: FriendDetail = new FriendDetail();
   title: string;
-  visible = false;
   submitType: string;
+  visible = false;
 
   constructor(
     private friendBackendService: FriendBackendService,
     private modalService: NzModalService
-  ) {}
+  ) {
+    this.initFriendInfo();
+  }
 
-  open(type: string, data?: IFriendDetail): void {
+  /**
+   * 初始化好友信息
+   *
+   * @memberof FriendService
+   */
+  initFriendInfo() {
+    for (const key in this.friendInfo) {
+      if (key) {
+        this.friendInfo[key] = null;
+      }
+    }
+  }
+
+  open(type: string, data?: FriendDetail): void {
     this.title = type === 'edit' ? '编辑好友' : '添加好友';
     this.submitType = type === 'edit' ? 'edit' : 'add';
     if (type === 'edit') {
       const { id, name, age, gender, hobby, remark } = data;
-      this.friendInfo = {
-        ...this.friendInfo,
-        id,
-        gender,
-        age,
-        name,
-        hobby,
-        remark,
-      };
+      this.friendInfo.id = id;
+      this.friendInfo.name = name;
+      this.friendInfo.age = age;
+      this.friendInfo.gender = gender;
+      this.friendInfo.hobby = hobby;
+      this.friendInfo.remark = remark;
     } else {
-      this.friendInfo = {
-        id: null,
-        gender: 'male',
-        age: null,
-        name: '',
-        hobby: '',
-        remark: '',
-      };
+      this.initFriendInfo();
     }
     this.visible = true;
   }
 
   close(): void {
     this.visible = false;
+  }
+
+  /**
+   * 获取好友列表
+   *
+   * @memberof FriendService
+   */
+  getFriendList() {
+    this.friendBackendService.getFriendList().subscribe(
+      res => {
+        console.log(res);
+      },
+      err => console.error(err)
+    );
   }
 
   /**
@@ -76,7 +88,7 @@ export class FriendService {
     const params = {
       name: searchParams,
     };
-    this.friendBackendService.getFriendList(params).subscribe(
+    this.friendBackendService.getFriend(params).subscribe(
       res => {},
       err => {
         console.error(err);
@@ -84,27 +96,18 @@ export class FriendService {
     );
   }
 
-  /**
-   * 新增好友、编辑好友提交
-   *
-   * @param {string} type
-   * @memberof FriendService
-   */
-  submit(type: string) {
-    const { name, age, gender, hobby, remark } = this.friendInfo;
-    const params: IFriendDetail = {
-      name,
-      age,
-      gender,
-      hobby,
-      remark,
-    };
-    type === 'add'
-      ? this.addFriend(params)
-      : this.editFriend(params, this.friendInfo.id);
+  submit(type: string): void {
+    const params: FriendDetail = this.friendInfo;
+    type === 'add' ? this.addFriend(params) : this.editFriend(params);
   }
 
-  addFriend(params) {
+  /**
+   * 新增好友
+   *
+   * @param {FriendDetail} params
+   * @memberof FriendService
+   */
+  addFriend(params: FriendDetail): void {
     this.friendBackendService.addFriend(params).subscribe(
       res => {
         console.log(res);
@@ -116,8 +119,14 @@ export class FriendService {
     );
   }
 
-  editFriend(params, id) {
-    this.friendBackendService.editFriend(id, params).subscribe(
+  /**
+   * 编辑好友
+   *
+   * @param {FriendDetail} params
+   * @memberof FriendService
+   */
+  editFriend(params: FriendDetail): void {
+    this.friendBackendService.editFriend(params.id, params).subscribe(
       res => {
         console.log(res);
         this.visible = false;
@@ -128,7 +137,13 @@ export class FriendService {
     );
   }
 
-  deleteFriend(data: IFriendDetail): void {
+  /**
+   * 删除好友
+   *
+   * @param {FriendDetail} data
+   * @memberof FriendService
+   */
+  deleteFriend(data: FriendDetail): void {
     this.modalService.confirm({
       nzTitle: `你是否要删除${data.name}?`,
       nzContent: '',
