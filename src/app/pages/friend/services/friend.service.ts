@@ -1,13 +1,38 @@
 import { Injectable } from '@angular/core';
 import { FriendDetail, IGender } from '../models/friend.model';
-import { FriendBackendService } from './friend-backend.service';
 import { NzModalService } from 'ng-zorro-antd';
+import { FriendBackendService } from './friend-backend.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FriendService {
-  dataSet: Array<FriendDetail> = [];
+  dataSet: Array<FriendDetail> = [
+    {
+      id: '1',
+      name: 'John Brown',
+      age: 32,
+      hobby: '123',
+      gender: 'male',
+      remark: '----',
+    },
+    {
+      id: '2',
+      name: 'Jim Green',
+      age: 42,
+      hobby: '321',
+      gender: 'male',
+      remark: '----',
+    },
+    {
+      id: '3',
+      name: 'Joe Black',
+      age: 32,
+      hobby: '123',
+      gender: 'female',
+      remark: '----',
+    },
+  ];
   genderRadioList: Array<IGender> = [
     {
       label: '男',
