@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FriendComponent } from './friend.component';
+import { FriendComponent } from './friend-detail/friend.component';
 import { FriendRoutingModule } from './friend-routing.module';
 import { FriendSearchComponent } from './friend-search/friend-search.component';
 import { SharedModule } from 'src/app/shared/shared.module';
