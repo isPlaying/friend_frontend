@@ -12,7 +12,16 @@ export class FriendService {
   title: string;
   submitType: string;
   visible = false;
-
+  genderRadioList: Array<IGender> = [
+    {
+      label: '男',
+      value: 'male',
+    },
+    {
+      label: '女',
+      value: 'female',
+    },
+  ];
   constructor(
     private friendBackendService: FriendBackendService,
     private modalService: NzModalService
