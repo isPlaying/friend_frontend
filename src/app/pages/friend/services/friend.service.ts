@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FriendDetail, IGender } from '../models/friend.model';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { FriendBackendService } from './friend-backend.service';
 
 @Injectable({
@@ -24,7 +24,8 @@ export class FriendService {
   ];
   constructor(
     private friendBackendService: FriendBackendService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private message: NzMessageService
   ) {
     this.initFriendInfo();
   }
@@ -101,8 +102,39 @@ export class FriendService {
     );
   }
 
+  /**
+   * 表单必填项校验
+   *
+   * @param {*} params
+   * @returns
+   * @memberof FriendService
+   */
+  validateForm(params) {
+    if (!params.name || !params.name.trim().length) {
+      this.message.error('必填项不能为空');
+      return;
+    }
+    if (!params.age) {
+      this.message.error('必填项不能为空');
+      return;
+    }
+    if (!params.hobby || !params.hobby.trim().length) {
+      this.message.error('必填项不能为空');
+      return;
+    }
+    if (!params.remark || !params.remark.trim().length) {
+      this.message.error('必填项不能为空');
+      return;
+    }
+    if (!params.gender) {
+      this.message.error('必填项不能为空');
+      return;
+    }
+  }
+
   submit(type: string): void {
     const params: FriendDetail = this.friendInfo;
+    this.validateForm(params);
     type === 'add' ? this.addFriend(params) : this.editFriend(params);
   }
 
@@ -116,6 +148,7 @@ export class FriendService {
     this.friendBackendService.addFriend(params).subscribe(
       () => {
         this.getFriendList();
+        this.message.success('添加成功');
         this.visible = false;
       },
       err => {
@@ -133,8 +166,8 @@ export class FriendService {
   editFriend(params: FriendDetail): void {
     this.friendBackendService.editFriend(params.id, params).subscribe(
       res => {
-        console.log(res);
         this.getFriendList();
+        this.message.success('修改成功');
         this.visible = false;
       },
       err => {
@@ -158,8 +191,8 @@ export class FriendService {
       nzOnOk: () => {
         this.friendBackendService.deleteFriend(data.id).subscribe(
           res => {
-            console.log(res);
             this.getFriendList();
+            this.message.success('删除成功');
           },
           err => {
             console.error(err);
