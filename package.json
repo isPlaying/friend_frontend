@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve -o --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "npm run lint:ts",
     "lint:ts": "tslint -p tsconfig.app.json -c tslint.json \"src/**/*.ts\" --fix",
+    "lint-staged": "lint-staged",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -34,6 +35,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "editorconfig-tools": "^0.1.1",
     "husky": "^4.2.3",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -42,6 +44,8 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "1.19.1",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
@@ -49,7 +53,18 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{html,less,json,md,sh}": [
+      "editorconfig-tools fix",
+      "git add"
+    ],
+    "*.ts": [
+      "npm run lint",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
