@@ -8,5 +8,7 @@ import { FriendService } from '../services/friend.service';
 export class FriendComponent implements OnInit {
   constructor(private friendService: FriendService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.friendService.getFriendList();
+  }
 }

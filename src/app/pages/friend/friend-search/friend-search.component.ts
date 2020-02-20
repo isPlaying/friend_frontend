@@ -13,5 +13,6 @@ export class FriendSearchComponent implements OnInit {
   ngOnInit() {}
   searchFriend(): void {
     this.searchParams.emit(this.name);
+    this.name = '';
   }
 }
