@@ -71,7 +71,7 @@ export class FriendService {
   getFriendList() {
     this.friendBackendService.getFriendList().subscribe(
       res => {
-        console.log(res);
+        this.dataSet = res.results;
       },
       err => console.error(err)
     );
@@ -84,11 +84,17 @@ export class FriendService {
    * @memberof FriendService
    */
   searchFriend(searchParams: string) {
+    if (!searchParams) {
+      this.getFriendList();
+      return;
+    }
     const params = {
       name: searchParams,
     };
     this.friendBackendService.getFriend(params).subscribe(
-      res => {},
+      res => {
+        this.dataSet = res.results;
+      },
       err => {
         console.error(err);
       }
@@ -108,8 +114,8 @@ export class FriendService {
    */
   addFriend(params: FriendDetail): void {
     this.friendBackendService.addFriend(params).subscribe(
-      res => {
-        console.log(res);
+      () => {
+        this.getFriendList();
         this.visible = false;
       },
       err => {
@@ -128,6 +134,7 @@ export class FriendService {
     this.friendBackendService.editFriend(params.id, params).subscribe(
       res => {
         console.log(res);
+        this.getFriendList();
         this.visible = false;
       },
       err => {
@@ -152,6 +159,7 @@ export class FriendService {
         this.friendBackendService.deleteFriend(data.id).subscribe(
           res => {
             console.log(res);
+            this.getFriendList();
           },
           err => {
             console.error(err);

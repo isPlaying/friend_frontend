@@ -18,7 +18,7 @@
         <tr *ngFor="let data of basicTable.data">
           <td>{{ data.name }}</td>
           <td>{{ data.age }}</td>
-          <td>{{ data.gender }}</td>
+          <td>{{ data.gender === 'male' ? '男' : '女'}}</td>
           <td>{{ data.hobby }}</td>
           <td>{{ data.remark }}</td>
           <td>

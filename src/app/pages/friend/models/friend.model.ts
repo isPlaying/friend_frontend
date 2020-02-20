@@ -1,5 +1,5 @@
 export class FriendDetail {
-  id?: string; // id
+  id?: number; // id
   name: string; // 姓名
   age: number; // 年龄
   hobby: string; // 爱好
@@ -7,6 +7,9 @@ export class FriendDetail {
   remark: string; // 备注
 }
 
+export interface IResponseFriend {
+  results: Array<FriendDetail>;
+}
 export interface IGender {
   label: string;
   value: string;

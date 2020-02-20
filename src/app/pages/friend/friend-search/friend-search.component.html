@@ -4,6 +4,7 @@
     nz-input
     placeholder="请输入姓名"
     [(ngModel)]="name"
+    (keydown.enter)="searchFriend()"
     autofocus
   />
 </nz-input-group>
