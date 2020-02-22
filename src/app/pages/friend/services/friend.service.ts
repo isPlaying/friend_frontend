@@ -200,7 +200,6 @@ export class FriendService {
         );
       },
       nzCancelText: '取消',
-      nzOnCancel: () => console.log('Cancel'),
     });
   }
 }
