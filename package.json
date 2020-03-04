@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --proxy-config proxy.config.json",
-    "build": "ng build",
+    "build": "ng build --prod --build-optimizer",
     "test": "ng test",
     "lint": "npm run lint:ts",
     "lint:ts": "tslint -p tsconfig.app.json -c tslint.json \"src/**/*.ts\" --fix",

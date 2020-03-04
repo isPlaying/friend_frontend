@@ -6,7 +6,7 @@ import { FriendService } from '../../services/friend.service';
   styleUrls: ['./friend.component.less'],
 })
 export class FriendComponent implements OnInit {
-  constructor(private friendService: FriendService) {}
+  constructor(public friendService: FriendService) {}
 
   ngOnInit() {
     this.friendService.getFriendList();
