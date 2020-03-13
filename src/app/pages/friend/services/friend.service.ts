@@ -102,14 +102,8 @@ export class FriendService {
     );
   }
 
-  /**
-   * 表单必填项校验
-   *
-   * @param {*} params
-   * @returns
-   * @memberof FriendService
-   */
-  validateForm(params) {
+  submit(type: string): void {
+    const params: FriendDetail = this.friendInfo;
     if (!params.name || !params.name.trim().length) {
       this.message.error('必填项不能为空');
       return;
@@ -130,11 +124,6 @@ export class FriendService {
       this.message.error('必填项不能为空');
       return;
     }
-  }
-
-  submit(type: string): void {
-    const params: FriendDetail = this.friendInfo;
-    this.validateForm(params);
     type === 'add' ? this.addFriend(params) : this.editFriend(params);
   }
 
